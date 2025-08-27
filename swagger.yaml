@@ -375,6 +375,34 @@ paths:
       security:
         - basicAuth: []
   /api/products/{id}:
+    delete:
+      summary: Supprime un produit par son ID
+      tags: [Products]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID du produit à supprimer
+      responses:
+        200:
+          description: Produit supprimé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    $ref: '#/components/schemas/Product'
+        404:
+          description: Produit non trouvé
+        500:
+          description: Erreur serveur
+      security:
+        - basicAuth: []
     get:
       summary: Récupère un produit par son ID
       tags: [Products]

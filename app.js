@@ -292,6 +292,25 @@ app.delete('/api/categories/:id', async (req, res) => {
 });
 
 // Product CRUD
+
+/**
+ * @route DELETE /api/products/:id
+ * @desc Supprimer un produit par son identifiant
+ * @access Authentification requise (admin:admin123)
+ * @returns { message: string, product: object }
+ */
+app.delete('/api/products/:id', async (req, res) => {
+  try {
+    const product = await Product.findOneAndDelete({ id: parseInt(req.params.id) });
+    if (!product) {
+      return res.status(404).json({ error: 'Produit non trouvé' });
+    }
+    res.json({ message: 'Produit supprimé avec succès', product });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/products', async (req, res) => {
   try {
     const { category } = req.query;
